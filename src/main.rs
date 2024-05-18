@@ -138,7 +138,7 @@ async fn put_link(link:&String, client:&Client, content_hash:String) -> Result<(
     Ok(())
 }
 
-async fn crawl(start_url:&str, cache:&mut Vec<String>,client:&Client) -> Result<bool, Box<dyn std::error::Error>> {
+async fn crawl(start_url:&str, cache:&mut Vec<String>,client:&Client) -> Result<(), Box<dyn std::error::Error>> {
     let mut links: Vec<String> = Vec::new();
     let body = get_html(&start_url.to_string()).await?;
     let document = Html::parse_document(&body);
@@ -165,7 +165,7 @@ async fn crawl(start_url:&str, cache:&mut Vec<String>,client:&Client) -> Result<
         let content_hash = get_hash(&html);
         put_link(&link, client,content_hash).await?;
     }
-    Ok(()))
+    Ok(())
 }
 
 #[tokio::main]
